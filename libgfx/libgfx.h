@@ -13,15 +13,17 @@
 #ifndef LIBGFX_H
 # define LIBGFX_H
 
+# include "libft.h"
+# include "mlx.h"
+# include "math.h"
+
 # define COLOR1 0x0066ffff
 # define COLOR2 0x006600ff
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 
-# include "libft.h"
-# include "mlx.h"
-# include "math.h"
+typedef int		t_color;
 
 typedef struct	s_2dp
 {
@@ -49,10 +51,12 @@ typedef struct	s_view
 	void		*id;
 	void		*win;
 	t_vertex	***points;
+	t_color		*colors;
+	int			num_colors;
 	int			width;
 	int			height;
-	int			z_minclip;
-	int			z_maxclip;
+	int			z_min;
+	int			z_max;
 	float		theta;
 	float		phi;
 	float		psi;
@@ -62,6 +66,8 @@ typedef struct	s_view
 	float		z_shift;
 }				t_view;
 
+t_color		ft_get_color(t_view *view, float c);
+void		ft_init_color_table(t_view *view, int colors);
 void		ft_mat_bzero(float mat[4][4]);
 void		ft_get_id_matrix(float mat[4][4]);
 void		ft_mat_mult(float m1[4][4], float m2[4][4], float d[4][4]);

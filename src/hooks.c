@@ -19,9 +19,9 @@ static void		key_hook_rot(int keycode, t_view *view)
 	else if (keycode == KEY_ROT_X_D)
 		view->theta -= 0.05;
 	else if (keycode == KEY_ROT_Y_U)
-		view->phi += 0.05;
-	else if (keycode == KEY_ROT_Y_D)
 		view->phi -= 0.05;
+	else if (keycode == KEY_ROT_Y_D)
+		view->phi += 0.05;
 	else if (keycode == KEY_ROT_Z_U)
 		view->psi += 0.05;
 	else if (keycode == KEY_ROT_Z_D)

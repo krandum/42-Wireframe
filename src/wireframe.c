@@ -41,7 +41,7 @@ void	world_init(t_view *view)
 
 	ft_get_id_matrix(global);
 	ft_mat_translate(global, -(view->width / 2), -(view->height / 2), 0);
-	ft_mat_scale(global, 1, 1, 0.25);
+	ft_mat_scale(global, 1, 1, 0.15);
 	y = -1;
 	while (++y < view->height)
 	{
@@ -88,16 +88,17 @@ void	draw_reload(t_view *view)
 
 void	begin_loop(t_view *view)
 {
-	view->theta = -M_PI / 12;
-	view->phi = 0.075;
+	view->theta = 0.0;
+	view->phi = 0.0;
 	view->psi = 0.0;
 	view->scale = 1.0;
 	view->x_shift = 0.0;
-	view->y_shift = 0.0;
+	view->y_shift = 30.0;
 	view->z_shift = 0.0;
 	view->id = mlx_init();
 	view->win = mlx_new_window(view->id, WIN_WIDTH, WIN_HEIGHT, "42-Wireframe");
 	world_init(view);
+	ft_init_color_table(view, 100);
 	draw_reload(view);
 	mlx_expose_hook(view->win, expose_hook, view);
 	mlx_hook(view->win, 2, 3, key_hook, view);

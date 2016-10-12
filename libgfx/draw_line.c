@@ -12,24 +12,37 @@
 
 #include "libgfx.h"
 
-void		ft_draw_point(t_view *view, int x, int y, float z)
+void		ft_init_color_table(t_view *view, int colors)
 {
+	int				i;
+	float			f;
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
+
+	view->colors = (t_color*)malloc(sizeof(t_color) * colors);
+	f = 0;
+	i = -1;
+	while (++i < colors)
+	{
+		r = (cos(f) + 1) * 100;
+		g = (sin(f) + 1) * 100;
+		b = (-cos(f) + 1) * 100;
+		view->colors[i] = ((int)r) << 16 | ((int)g) << 8 | b;
+		f += M_PI / colors;
+	}
+	view->num_colors = colors;
+}
+
+void		ft_draw_point(t_view *view, int x, int y, float z)
+{
+	float			which;
 	unsigned int	color;
-	float			per;
 
 	if (x > 0 && y > 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
 	{
-		per = fabs(z) / 10.0;
-		r = ((COLOR2 >> 16) - (COLOR1 >> 16) * per);
-		r += COLOR1 >> 16;
-		g = ((COLOR2 >> 8 & 0xFF) - (COLOR1 >> 8 & 0xFF)) * per;
-		g += COLOR1 >> 8 & 0xFF;
-		b = ((COLOR2 & 0xFF) - (COLOR1 & 0xFF)) * per;
-		b += COLOR1 & 0xFF;
-		color = ((int)r) << 16 | ((int)g) << 8 | b;
+		which = ((z - view->z_min) / (view->z_max - view->z_min)) * (view->num_colors);
+		color = view->colors[abs((int)which - 1)];
 		mlx_pixel_put(view->id, view->win, x, y, color);
 	}
 }
@@ -54,13 +67,6 @@ static int	swap_vars(t_3dp *p0, t_3dp *p1)
 	return (1);
 }
 
-static void	get_deltas(float *delta, t_3dp p0, t_3dp p1)
-{
-	delta[0] = p1.x - p0.x;
-	delta[1] = p1.y - p0.y;
-	delta[2] = p1.z - p0.z;
-}
-
 void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1)
 {
 	float	delta[3];
@@ -69,7 +75,9 @@ void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1)
 	int		dir;
 
 	dir = swap_vars(&p0, &p1);
-	get_deltas(delta, p0, p1);
+	delta[0] = p1.x - p0.x;
+	delta[1] = p1.y - p0.y;
+	delta[2] = p1.z - p0.z;
 	slope = fabs(delta[1] / delta[0]);
 	error = -1.0;
 	while ((int)p0.x != (int)p1.x)

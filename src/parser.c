@@ -25,6 +25,8 @@ static void	keep_parsing(t_view *view, char *filename)
 	fd = open(filename, O_RDONLY);
 	view->points = (t_vertex***)malloc(sizeof(t_vertex**) * view->height);
 	y = 0;
+	view->z_min = 2147483647;
+	view->z_max = -2147483648;
 	while (ft_get_next_line(fd, &buff))
 	{
 		tab = ft_strsplit(buff, ' ');
@@ -34,8 +36,8 @@ static void	keep_parsing(t_view *view, char *filename)
 		{
 			z = ft_atoi(tab[x]);
 			view->points[y][x] = ft_get_vertex(x, y, z);
-			view->z_minclip = MIN(z, view->z_minclip);
-			view->z_maxclip = MAX(z, view->z_maxclip);
+			view->z_min = MIN(z, view->z_min);
+			view->z_max = MAX(z, view->z_max);
 		}
 		y++;
 	}

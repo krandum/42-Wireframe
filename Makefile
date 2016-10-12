@@ -19,16 +19,16 @@ CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
 
 LIBFT	= ./libft/libft.a
-FTINC	= -I ./libft
-FTLINK	= -L ./libft -lft
+FTINC	= -I ./libft/
+FTLINK	= -L ./libft/ -lft
 
 LIBGFX	= ./libgfx/libgfx.a
-GFXINC	= -I ./libgfx
-GFXLINK	= -L ./libgfx -lgfx
+GFXINC	= -I ./libgfx/
+GFXLINK	= -L ./libgfx/ -lgfx
 
 LIBMLX	= ./minilibx/libmlx.a
-MLXINC	= -I ./minilibx
-MLXLINK	= -L ./minilibx -lmlx -framework OpenGL -framework AppKit
+MLXINC	= -I ./minilibx/
+MLXLINK	= -L ./minilibx/ -lmlx -framework OpenGL -framework AppKit
 
 SRCDIR	= ./src/
 INCDIR	= ./includes/
@@ -44,6 +44,9 @@ obj:
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(CC) $(CFLAGS) $(FTINC) $(GFXINC) $(MLXINC) -I $(INCDIR) -o $@ -c $<
 
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(FTLINK) $(GFXLINK) $(MLXLINK) -o $(NAME)
+
 libft: $(LIBFT)
 
 libgfx: $(LIBGFX)
@@ -51,16 +54,13 @@ libgfx: $(LIBGFX)
 mlx: $(LIBMLX)
 
 $(LIBFT):
-	make -C ./libft
+	make -C ./libft/
 
 $(LIBGFX):
-	make -C ./libgfx
+	make -C ./libgfx/
 
 $(LIBMLX):
-	make -C ./minilibx
-
-$(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(FTLINK) $(GFXLINK) $(MLXLINK)
+	make -C ./minilibx/
 
 clean:
 	rm -rf $(OBJDIR)

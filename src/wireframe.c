@@ -41,7 +41,7 @@ void	world_init(t_view *view)
 
 	ft_get_id_matrix(global);
 	ft_mat_translate(global, -(view->width / 2), -(view->height / 2), 0);
-	ft_mat_scale(global, 1, 1, 0.175);
+	ft_mat_scale(global, 1, 1, 0.25);
 	y = -1;
 	while (++y < view->height)
 	{
@@ -88,8 +88,8 @@ void	draw_reload(t_view *view)
 
 void	begin_loop(t_view *view)
 {
-	view->theta = M_PI / 8;
-	view->phi = .2;
+	view->theta = -M_PI / 12;
+	view->phi = 0.075;
 	view->psi = 0.0;
 	view->scale = 1.0;
 	view->x_shift = 0.0;

@@ -95,7 +95,7 @@ static int	shameless_split(t_pack **ppack, t_pack *pack, char **line)
 /*
 **	Sets my pack structure, checks for parameter errors
 */
-int		get_next_line(const int fd, char **line)
+int		ft_get_next_line(const int fd, char **line)
 {
 	static t_pack	*packs[MAX_PACKS];
 

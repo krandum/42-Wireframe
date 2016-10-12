@@ -22,6 +22,9 @@
 # define BUFF_SIZE 4096
 # define MAX_PACKS 1000
 
+# define MIN(x, y) (((x) < (y)) ? (x) : (y))
+# define MAX(x, y) (((x) > (y)) ? (x) : (y))
+
 typedef struct	s_range
 {
 	size_t	start;
@@ -129,6 +132,6 @@ t_list			*ft_tabtolst(char **tab, int freetab);
 void			ft_putlst(t_list *head, const char *d);
 void			ft_puttab(char const **tab, const char *d);
 char			**ft_tabdup(const char **tab);
-int				get_next_line(const int fd, char **line);
+int				ft_get_next_line(const int fd, char **line);
 
 #endif

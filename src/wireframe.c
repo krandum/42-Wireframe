@@ -82,8 +82,12 @@ void	align_transform(t_view *view)
 void	draw_reload(t_view *view)
 {
 	align_transform(view);
-	mlx_clear_window(view->id, view->win);
+	view->img = mlx_new_image(view->id, WIN_WIDTH + 100, WIN_HEIGHT + 100);
+	view->pixels = mlx_get_data_addr(view->img, &(view->bits_per_pixel),
+		&(view->size_line), &(view->endian));
 	draw_wireframe(view);
+	mlx_put_image_to_window(view->id, view->win, view->img, 0, 0);
+	mlx_destroy_image(view->id, view->img);
 }
 
 void	begin_loop(t_view *view)
@@ -97,10 +101,15 @@ void	begin_loop(t_view *view)
 	view->z_shift = 0.0;
 	view->id = mlx_init();
 	view->win = mlx_new_window(view->id, WIN_WIDTH, WIN_HEIGHT, "42-Wireframe");
+	view->pressed = (t_keys*)ft_memalloc(sizeof(t_keys));
 	world_init(view);
 	ft_init_color_table(view, 100);
 	draw_reload(view);
 	mlx_expose_hook(view->win, expose_hook, view);
-	mlx_hook(view->win, 2, 3, key_hook, view);
+	mlx_do_key_autorepeatoff(view->id);
+	mlx_hook(view->win, 2, 0, key_pressed_hook, view);
+	mlx_hook(view->win, 3, 0, key_released_hook, view);
+	mlx_hook(view->win, 17, 0, exit_hook, view);
+	mlx_loop_hook(view->id, move_loop_hook, view);
 	mlx_loop(view->id);
 }

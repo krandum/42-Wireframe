@@ -42,7 +42,10 @@ void	align_transform(t_view *view);
 void	draw_reload(t_view *view);
 void	begin_loop(t_view *view);
 void	parse(t_view *view, char *filename);
-int		key_hook(int keycode, t_view *view);
+int		key_pressed_hook(int keycode, t_view *view);
+int		key_released_hook(int keycode, t_view *view);
+int		move_loop_hook(t_view *view);
 int		expose_hook(t_view *view);
+int		exit_hook(t_view *view);
 
 #endif

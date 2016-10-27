@@ -12,6 +12,12 @@
 
 #include "fdf.h"
 
+int				exit_hook(t_view *view)
+{
+	mlx_destroy_window(view->id, view->win);
+	exit(0);
+}
+
 int		main(int argc, char **argv)
 {
 	t_view	*view;

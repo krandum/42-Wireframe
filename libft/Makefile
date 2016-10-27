@@ -48,9 +48,9 @@ fclean: clean
 build:
 	@mkdir build/
 
+build/%.o: %.c libft.h | build
+	@gcc $(FLAGS) -c $< -o $@
+
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@ranlib $(NAME)
-
-build/%.o: %.c libft.h | build
-	@gcc $(FLAGS) -c $< -o $@

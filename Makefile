@@ -6,7 +6,7 @@
 #    By: palatorr <palatorr@student.42.us.or>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/09 18:06:54 by palatorr          #+#    #+#              #
-#    Updated: 2016/10/09 18:06:55 by palatorr         ###   ########.fr        #
+#    Updated: 2016/10/16 17:12:42 by palatorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,5 +80,10 @@ totalfclean: totalclean
 	make -C ./libgfx fclean
 
 re: fclean all
+
+gfx:
+	make -C ./libgfx re
+
+regfx: gfx re
 
 fullre: totalfclean libft libgfx mlx all

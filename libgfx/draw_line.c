@@ -25,26 +25,34 @@ void		ft_init_color_table(t_view *view, int colors)
 	i = -1;
 	while (++i < colors)
 	{
-		r = (cos(f) + 1) * 100;
-		g = (sin(f) + 1) * 100;
-		b = (-cos(f) + 1) * 100;
+		r = (cos(f) + 1) * 127;
+		g = (sin(f) + 1) * 127;
+		b = (-cos(f) + 1) * 127;
 		view->colors[i] = ((int)r) << 16 | ((int)g) << 8 | b;
 		f += M_PI / colors;
 	}
 	view->num_colors = colors;
 }
 
-void		ft_draw_point(t_view *view, int x, int y, float z)
+int			ft_draw_point(t_view *view, int x, int y, float z)
 {
+	int				i;
 	float			which;
 	unsigned int	color;
 
 	if (x > 0 && y > 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
 	{
+		i = (x * 4) + (y * view->size_line);
+		if (view->pixels[i] || view->pixels[i + 1] || view->pixels[i + 2])
+			return (0);
 		which = ((z - view->z_min) / (view->z_max - view->z_min)) * (view->num_colors);
 		color = view->colors[abs((int)which - 1)];
-		mlx_pixel_put(view->id, view->win, x, y, color);
+		view->pixels[i] = color;
+		view->pixels[++i] = color >> 8;
+		view->pixels[++i] = color >> 16;
+		return (1);
 	}
+	return (0);
 }
 
 /*

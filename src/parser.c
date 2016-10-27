@@ -17,29 +17,27 @@ static void	keep_parsing(t_view *view, char *filename)
 	char	*buff;
 	char	**tab;
 	int		fd;
-	int		y;
-	int		x;
-	int		z;
+	int		c[3];
 
 	buff = (char*)malloc(sizeof(char) * 4096);
 	fd = open(filename, O_RDONLY);
 	view->points = (t_vertex***)malloc(sizeof(t_vertex**) * view->height);
-	y = 0;
+	c[1] = 0;
 	view->z_min = 2147483647;
 	view->z_max = -2147483648;
 	while (ft_get_next_line(fd, &buff))
 	{
 		tab = ft_strsplit(buff, ' ');
-		view->points[y] = (t_vertex**)malloc(sizeof(t_vertex*) * view->width);
-		x = -1;
-		while (++x < view->width)
+		view->points[c[1]] = (t_vertex**)malloc(sizeof(t_vertex*) * view->width);
+		c[0] = -1;
+		while (++c[0] < view->width)
 		{
-			z = ft_atoi(tab[x]);
-			view->points[y][x] = ft_get_vertex(x, y, z);
-			view->z_min = MIN(z, view->z_min);
-			view->z_max = MAX(z, view->z_max);
+			c[2] = ft_atoi(tab[c[0]]);
+			view->points[c[1]][c[0]] = ft_get_vertex(c[0], c[1], c[2]);
+			view->z_min = MIN(c[2], view->z_min);
+			view->z_max = MAX(c[2], view->z_max);
 		}
-		y++;
+		c[1]++;
 	}
 }
 

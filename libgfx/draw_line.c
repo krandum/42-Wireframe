@@ -45,7 +45,8 @@ int			ft_draw_point(t_view *view, int x, int y, float z)
 		i = (x * 4) + (y * view->size_line);
 		if (view->pixels[i] || view->pixels[i + 1] || view->pixels[i + 2])
 			return (0);
-		which = ((z - view->z_min) / (view->z_max - view->z_min)) * (view->num_colors);
+		which = ((z - view->z_min) / (view->z_max - view->z_min)) *
+			(view->num_colors);
 		color = view->colors[abs((int)which - 1)];
 		view->pixels[i] = color;
 		view->pixels[++i] = color >> 8;
@@ -97,7 +98,7 @@ void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1)
 			p0.y += (p0.y > p1.y) ? -1.0 : 1.0;
 			error -= 1.0;
 		}
-		p0.z -= (p0.z > p1.z) ? -(delta[2] / delta[0]) : delta[2] / delta[0];
+		p0.z += delta[2] / fabs(delta[0]);
 		p0.x += (p0.x > p1.x) ? -1.0 : 1.0;
 	}
 }

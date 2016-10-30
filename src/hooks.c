@@ -27,13 +27,13 @@ int				move_loop_hook(t_view *view)
 	if (view->pressed->e)
 		view->psi -= 0.05;
 	if (view->pressed->up)
-		view->y_shift += 5.0;
-	if (view->pressed->down)
 		view->y_shift -= 5.0;
+	if (view->pressed->down)
+		view->y_shift += 5.0;
 	if (view->pressed->left)
-		view->x_shift += 5.0;
-	if (view->pressed->right)
 		view->x_shift -= 5.0;
+	if (view->pressed->right)
+		view->x_shift += 5.0;
 	draw_reload(view);
 	return (0);
 }

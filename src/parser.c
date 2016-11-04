@@ -12,6 +12,10 @@
 
 #include "fdf.h"
 
+
+#include <stdio.h>
+
+
 static void	keep_parsing(t_view *view, char *filename)
 {
 	char	*buff;
@@ -19,7 +23,6 @@ static void	keep_parsing(t_view *view, char *filename)
 	int		fd;
 	int		c[3];
 
-	buff = (char*)malloc(sizeof(char) * 4096);
 	fd = open(filename, O_RDONLY);
 	view->points = (t_vertex***)malloc(sizeof(t_vertex**) * view->height);
 	c[1] = 0;
@@ -38,6 +41,7 @@ static void	keep_parsing(t_view *view, char *filename)
 			view->z_max = MAX(c[2], view->z_max);
 		}
 		c[1]++;
+		free(buff);
 	}
 }
 
@@ -48,7 +52,6 @@ void		parse(t_view *view, char *filename)
 	int		fd;
 	int		w;
 
-	buff = (char*)malloc(sizeof(char) * 4096);
 	fd = open(filename, O_RDONLY);
 	view->height = 0;
 	view->width = 0;
@@ -62,6 +65,7 @@ void		parse(t_view *view, char *filename)
 			exit(0);
 		view->width = w;
 		view->height++;
+		free(buff);
 	}
 	close(fd);
 	keep_parsing(view, filename);

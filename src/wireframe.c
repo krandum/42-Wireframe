@@ -12,6 +12,10 @@
 
 #include "fdf.h"
 
+
+#include <stdio.h>
+
+
 void	draw_wireframe(t_view *view)
 {
 	int		y;
@@ -63,9 +67,8 @@ void	align_transform(t_view *view)
 	ft_get_id_matrix(global);
 	ft_mat_rotate(global, view->theta, view->phi, view->psi);
 	ft_mat_scale(global, (WIN_WIDTH * view->scale) / view->width,
-		(WIN_HEIGHT * view->scale) / view->height, 0.0);
-	ft_mat_translate(global, WIN_WIDTH / 2 + view->x_shift,
-		WIN_HEIGHT / 2 + view->y_shift, view->z_shift);
+		(WIN_HEIGHT * view->scale) / view->height, view->scale);
+	ft_mat_translate(global, view->x_shift, view->y_shift, view->z_shift);
 	y = -1;
 	while (++y < view->height)
 	{
@@ -74,6 +77,14 @@ void	align_transform(t_view *view)
 		{
 			ft_vec_mat_mult(view->points[y][x]->world, global,
 				view->points[y][x]->aligned);
+			if (view->points[y][x]->aligned->z == 0.0)
+				view->points[y][x]->aligned->z = 0.001;
+			view->points[y][x]->aligned->x = 6.0 *
+				view->points[y][x]->aligned->x / (view->z_max -
+				view->points[y][x]->aligned->z) + WIN_WIDTH / 2.0;
+			view->points[y][x]->aligned->y = 6.0 *
+				view->points[y][x]->aligned->y / (view->z_max -
+				view->points[y][x]->aligned->z) + WIN_HEIGHT / 2.0;
 			view->points[y][x]->aligned->z = view->points[y][x]->local->z;
 		}
 	}

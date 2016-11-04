@@ -90,7 +90,7 @@ int				key_released_hook(int keycode, t_view *view)
 	return (0);
 }
 
-int				expose_hook(t_view *view)
+int		expose_hook(t_view *view)
 {
 	draw_reload(view);
 	return (0);

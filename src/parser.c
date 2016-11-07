@@ -12,10 +12,6 @@
 
 #include "fdf.h"
 
-
-#include <stdio.h>
-
-
 static void	keep_parsing(t_view *view, char *filename)
 {
 	char	*buff;
@@ -31,7 +27,7 @@ static void	keep_parsing(t_view *view, char *filename)
 	while (ft_get_next_line(fd, &buff))
 	{
 		tab = ft_strsplit(buff, ' ');
-		view->points[c[1]] = (t_vertex**)malloc(sizeof(t_vertex*) * view->width);
+		view->points[c[1]] = malloc(sizeof(t_vertex*) * view->width);
 		c[0] = -1;
 		while (++c[0] < view->width)
 		{
@@ -69,4 +65,7 @@ void		parse(t_view *view, char *filename)
 	}
 	close(fd);
 	keep_parsing(view, filename);
+	view->per = 1;
+	if (view->width > 50 || view->height > 50)
+		view->per = 0;
 }

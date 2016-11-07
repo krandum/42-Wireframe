@@ -12,7 +12,7 @@
 
 NAME	= fdf
 
-SRC		= main.c wireframe.c parser.c hooks.c
+SRC		= main.c wireframe.c parser.c hooks.c mouse.c
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
 CC		= gcc

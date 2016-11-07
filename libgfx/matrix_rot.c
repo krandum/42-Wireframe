@@ -63,10 +63,26 @@ void		ft_mat_rotate(float mat[4][4], float theta, float phi, float psi)
 
 void		ft_vec_mat_mult(t_3dp *src, float mat[4][4], t_3dp *dst)
 {
-	dst->x = src->x * mat[0][0] + src->y * mat[1][0] + src->z * mat[2][0]
-		+ mat[3][0];
-	dst->y = src->x * mat[0][1] + src->y * mat[1][1] + src->z * mat[2][1]
-		+ mat[3][1];
-	dst->z = src->x * mat[0][2] + src->y * mat[1][2] + src->z * mat[2][2]
-		+ mat[3][2];
+	double	x;
+	double	y;
+	double	z;
+
+	x = (double)(src->x * mat[0][0]) + (double)(src->y * mat[1][0]) +
+		(double)(src->z * mat[2][0]) + mat[3][0];
+	if (x > 3.402823E38 || x < -3.402823E38)
+		dst->x = (x < 0.0) ? -3.402823E38 : 3.402823E38;
+	else
+		dst->x = x;
+	y = (double)(src->x * mat[0][1]) + (double)(src->y * mat[1][1]) +
+		(double)(src->z * mat[2][1]) + mat[3][1];
+	if (y > 3.402823E38 || y < -3.402823E38)
+		dst->y = (y < 0.0) ? -3.402823E38 : 3.402823E38;
+	else
+		dst->y = y;
+	z = (double)(src->x * mat[0][2]) + (double)(src->y * mat[1][2]) +
+		(double)(src->z * mat[2][2]) + mat[3][2];
+	if (z > 3.402823E38 || z < -3.402823E38)
+		dst->z = (z < 0.0) ? -3.402823E38 : 3.402823E38;
+	else
+		dst->z = z;
 }

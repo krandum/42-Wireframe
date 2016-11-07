@@ -46,14 +46,14 @@ typedef struct	s_dlist
 	struct s_dlist	*prev;
 }				t_dlist;
 
-typedef struct		s_pack
+typedef struct	s_pack
 {
 	char	*str;
 	long	len;
 	long	cur;
 	int		has_read;
 	char	*endl;
-}					t_pack;
+}				t_pack;
 
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);

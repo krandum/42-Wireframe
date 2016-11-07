@@ -23,6 +23,8 @@ void		ft_init_color_table(t_view *view, int colors)
 	view->colors = (t_color*)malloc(sizeof(t_color) * colors);
 	f = 0;
 	i = -1;
+	if (!view->z_max && !view->z_min)
+		view->z_max = 1;
 	while (++i < colors)
 	{
 		r = (cos(f) + 1) * 127;
@@ -43,8 +45,6 @@ int			ft_draw_point(t_view *view, int x, int y, float z)
 	if (x > 0 && y > 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
 	{
 		i = (x * 4) + (y * view->size_line);
-		if (view->pixels[i] || view->pixels[i + 1] || view->pixels[i + 2])
-			return (0);
 		which = ((z - view->z_min) / (view->z_max - view->z_min)) *
 			(view->num_colors);
 		color = view->colors[abs((int)which - 1)];
@@ -76,6 +76,27 @@ static int	swap_vars(t_3dp *p0, t_3dp *p1)
 	return (1);
 }
 
+static int	check_deltas(t_3dp *p0, t_3dp *p1, float delta[3], int dir)
+{
+	t_3dp	temp;
+
+	if (p0->x == 4.2E7 || p1->x == 4.2E7)
+		return (0);
+	if ((p0->x > p1->x && p0->x > (dir ? WIN_HEIGHT : WIN_WIDTH) / 2) ||
+		(p0->x < p1->x && p0->x < (dir ? WIN_HEIGHT : WIN_WIDTH) / 2))
+	{
+		temp = *p0;
+		*p0 = *p1;
+		*p1 = temp;
+	}
+	delta[0] = p1->x - p0->x;
+	if (p0->y == 4.2E7 || p1->y == 4.2E7)
+		return (0);
+	delta[1] = p1->y - p0->y;
+	delta[2] = p1->z - p0->z;
+	return (1);
+}
+
 void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1)
 {
 	float	delta[3];
@@ -84,14 +105,14 @@ void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1)
 	int		dir;
 
 	dir = swap_vars(&p0, &p1);
-	delta[0] = p1.x - p0.x;
-	delta[1] = p1.y - p0.y;
-	delta[2] = p1.z - p0.z;
+	if (!check_deltas(&p0, &p1, delta, dir))
+		return ;
 	slope = fabs(delta[1] / delta[0]);
 	error = -1.0;
 	while ((int)p0.x != (int)p1.x)
 	{
-		ft_draw_point(view, dir ? p0.y : p0.x, dir ? p0.x : p0.y, p0.z);
+		if (!ft_draw_point(view, dir ? p0.y : p0.x, dir ? p0.x : p0.y, p0.z))
+			return ;
 		error += slope;
 		if (error >= 0.0)
 		{

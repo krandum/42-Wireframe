@@ -17,9 +17,6 @@
 # include "mlx.h"
 # include "math.h"
 
-# define COLOR1 0x0066ffff
-# define COLOR2 0x006600ff
-
 # define WIN_WIDTH 1600
 # define WIN_HEIGHT 1200
 
@@ -84,21 +81,23 @@ typedef struct	s_view
 	int			size_line;
 	int			endian;
 	t_keys		*pressed;
+	int			per;
 }				t_view;
 
-t_color		ft_get_color(t_view *view, float c);
-void		ft_init_color_table(t_view *view, int colors);
-void		ft_mat_bzero(float mat[4][4]);
-void		ft_get_id_matrix(float mat[4][4]);
-void		ft_mat_mult(float m1[4][4], float m2[4][4], float d[4][4]);
-void		ft_vec_mat_mult(t_3dp *src, float mat[4][4], t_3dp *dst);
-void		ft_mat_translate(float mat[4][4], float x, float y, float z);
-void		ft_mat_rotate(float mat[4][4], float theta, float phi, float psi);
-void		ft_mat_scale(float mat[4][4], float x, float y, float z);
-t_2dp		*ft_get_2d_point(float x, float y);
-t_3dp		*ft_get_3d_point(float x, float y, float z);
-t_vertex	*ft_get_vertex(float x, float y, float z);
-int			ft_draw_point(t_view *view, int x, int y, float z);
-void		ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1);
+t_color			ft_get_color(t_view *view, float c);
+void			ft_init_color_table(t_view *view, int colors);
+void			ft_mat_bzero(float mat[4][4]);
+void			ft_get_id_matrix(float mat[4][4]);
+void			ft_mat_mult(float m1[4][4], float m2[4][4], float d[4][4]);
+void			ft_vec_mat_mult(t_3dp *src, float mat[4][4], t_3dp *dst);
+void			ft_mat_translate(float mat[4][4], float x, float y, float z);
+void			ft_mat_rotate(float mat[4][4], float theta, float phi,
+	float psi);
+void			ft_mat_scale(float mat[4][4], float x, float y, float z);
+t_2dp			*ft_get_2d_point(float x, float y);
+t_3dp			*ft_get_3d_point(float x, float y, float z);
+t_vertex		*ft_get_vertex(float x, float y, float z);
+int				ft_draw_point(t_view *view, int x, int y, float z);
+void			ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1);
 
 #endif

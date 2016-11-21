@@ -133,5 +133,6 @@ void			ft_putlst(t_list *head, const char *d);
 void			ft_puttab(char const **tab, const char *d);
 char			**ft_tabdup(const char **tab);
 int				ft_get_next_line(const int fd, char **line);
+void			*ft_realloc(void *src, size_t srcsize, size_t newsize);
 
 #endif

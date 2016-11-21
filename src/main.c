@@ -53,6 +53,8 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	view = (t_view*)malloc(sizeof(t_view));
+	view->z_min = 2147483647;
+	view->z_max = -2147483648;
 	parse(view, argv[1]);
 	begin_loop(view);
 }

@@ -45,7 +45,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(CC) $(CFLAGS) $(FTINC) $(GFXINC) $(MLXINC) -I $(INCDIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) $(FTLINK) $(GFXLINK) $(MLXLINK) -o $(NAME)
+	$(CC) -fsanitize=address $(OBJ) $(FTLINK) $(GFXLINK) $(MLXLINK) -o $(NAME)
 
 libft: $(LIBFT)
 

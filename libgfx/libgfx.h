@@ -20,7 +20,8 @@
 # define WIN_WIDTH 1600
 # define WIN_HEIGHT 1200
 
-typedef int		t_color;
+typedef unsigned int	t_color;
+typedef unsigned char	t_byte;
 
 typedef struct	s_2dp
 {
@@ -41,6 +42,7 @@ typedef struct	s_vertex
 	t_3dp		*world;
 	t_3dp		*aligned;
 	t_3dp		*projected;
+	t_color		color;
 }				t_vertex;
 
 typedef struct	s_keys
@@ -99,5 +101,9 @@ t_3dp			*ft_get_3d_point(float x, float y, float z);
 t_vertex		*ft_get_vertex(float x, float y, float z);
 int				ft_draw_point(t_view *view, int x, int y, float z);
 void			ft_drawline_3d(t_view *view, t_3dp p0, t_3dp p1);
+t_color			ft_color_mult(t_color c, float r);
+t_color			ft_color_partial_combine(t_color c1, t_color c2, float r);
+t_color			ft_color_combine(t_color c1, t_color c2);
+void			ft_put_pixel(t_view *view, int x, int y, t_color color);
 
 #endif

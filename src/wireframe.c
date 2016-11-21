@@ -32,7 +32,6 @@ void	draw_wireframe(t_view *view)
 		}
 	}
 }
-
 void	world_init(t_view *view)
 {
 	float	global[4][4];

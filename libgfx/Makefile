@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILENAMES	= matrix.c matrix_rot.c vertex.c draw_line.c
+FILENAMES	= matrix.c matrix_rot.c vertex.c draw_line.c color.c
 
 NAME		= libgfx.a
 

@@ -12,7 +12,50 @@
 
 #include "fdf.h"
 
-static void	keep_parsing(t_view *view, char *filename)
+#define RET(x, y) if (c == x) return (y);
+
+static int		get_hex(char c)
+{
+	RET('0', 0x0)
+	RET('1', 0x1)
+	RET('2', 0x2)
+	RET('3', 0x3)
+	RET('4', 0x4)
+	RET('5', 0x5)
+	RET('6', 0x6)
+	RET('7', 0x7)
+	RET('8', 0x8)
+	RET('9', 0x9)
+	RET('A', 0xA)
+	RET('B', 0xB)
+	RET('C', 0xC)
+	RET('D', 0xD)
+	RET('E', 0xE)
+	RET('F', 0xF)
+	return (0);
+}
+
+static t_color	get_color(char *str)
+{
+	t_color	out;
+	int		shift;
+
+	while (*str != 'x')
+		if (!*(++str))
+			return (-1);
+	str++;
+	out = 0;
+	shift = 20;
+	while (*str && shift >= 0)
+	{
+		out |= get_hex(*str) << shift;
+		shift -= 4;
+		str++;
+	}
+	return (out);
+}
+
+static void		keep_parsing(t_view *view, char *filename)
 {
 	char	*buff;
 	char	**tab;
@@ -21,10 +64,8 @@ static void	keep_parsing(t_view *view, char *filename)
 
 	fd = open(filename, O_RDONLY);
 	view->points = (t_vertex***)malloc(sizeof(t_vertex**) * view->height);
-	c[1] = 0;
-	view->z_min = 2147483647;
-	view->z_max = -2147483648;
-	while (ft_get_next_line(fd, &buff))
+	c[1] = -1;
+	while (ft_get_next_line(fd, &buff) && ++c[1] < 2147483647)
 	{
 		tab = ft_strsplit(buff, ' ');
 		view->points[c[1]] = malloc(sizeof(t_vertex*) * view->width);
@@ -33,15 +74,16 @@ static void	keep_parsing(t_view *view, char *filename)
 		{
 			c[2] = ft_atoi(tab[c[0]]);
 			view->points[c[1]][c[0]] = ft_get_vertex(c[0], c[1], c[2]);
+			view->points[c[1]][c[0]]->color = get_color(tab[c[0]]);
 			view->z_min = MIN(c[2], view->z_min);
 			view->z_max = MAX(c[2], view->z_max);
 		}
-		c[1]++;
 		free(buff);
+		free(tab);
 	}
 }
 
-void		parse(t_view *view, char *filename)
+void			parse(t_view *view, char *filename)
 {
 	char	*buff;
 	char	**tab;

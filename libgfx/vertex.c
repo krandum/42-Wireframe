@@ -37,7 +37,7 @@ t_vertex	*ft_get_vertex(float x, float y, float z)
 {
 	t_vertex	*out;
 
-	out = (t_vertex*)malloc(sizeof(t_vertex));
+	out = (t_vertex*)ft_memalloc(sizeof(t_vertex));
 	out->local = ft_get_3d_point(x, y, z);
 	out->world = ft_get_3d_point(0, 0, 0);
 	out->aligned = ft_get_3d_point(0, 0, 0);
